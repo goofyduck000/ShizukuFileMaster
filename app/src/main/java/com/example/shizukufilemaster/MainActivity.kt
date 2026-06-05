@@ -40,7 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
-import com.rikka.shizuku.Shizuku
+import rikka.shizuku.Shizuku
 import com.rikka.shizuku.ShizukuProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
