@@ -22,18 +22,19 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          api-level: 34
-          build-tools-version: 34.0.0
+
+      - name: Install SDK Packages
+        run: |
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
       - name: Generate Gradle Wrapper
-        run: |
-          cd app
-          gradle wrapper --gradle-version 8.5
-          cd ..
+        run: gradle wrapper --gradle-version 8.5
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
 
       - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
