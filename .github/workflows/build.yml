@@ -1,14 +1,16 @@
 name: Build APK
-
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # Permet de lancer manuellement depuis l'onglet Actions
+  workflow_dispatch: # Permet le bouton "Run workflow"
 
 jobs:
   build:
     name: Build Debug APK
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write # Necessaire pour upload-artifact
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -24,26 +26,16 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           api-level: 34
-          ndk-version: r26c
           build-tools-version: 34.0.0
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x ./gradlew
-        # Note: On utilise le wrapper gradle généré par Android Studio normalement.
-        # Ici, comme on a pas le wrapper, on va installer Gradle directement.
-
-      - name: Install Gradle
-        uses: gradle/gradle-build-action@v3
-        with:
-          gradle-version: 8.5
-
-      - name: Build Debug APK
+      - name: Generate Gradle Wrapper
         run: |
           cd app
-          # Générer le wrapper localement pour la build
           gradle wrapper --gradle-version 8.5
           cd ..
-          ./gradlew :app:assembleDebug
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
