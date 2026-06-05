@@ -36,7 +36,7 @@
 
         <!-- Provider Shizuku (OBLIGATOIRE pour que l'API fonctionne) -->
         <provider
-            android:name="com.rikka.shizuku.ShizukuProvider"
+            android:name="rikka.shizuku.ShizukuProvider"
             android:authorities="${applicationId}.shizuku.provider"
             android:exported="true"
             android:grantUriPermissions="true"
